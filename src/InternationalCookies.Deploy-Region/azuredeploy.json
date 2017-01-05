@@ -241,7 +241,7 @@
               },
               {
                 "name": "AzureStorageConnection",
-                "connectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('internationalcookiesstorageName'), 'AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('internationalcookiesstorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value )]"
+                "connectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('internationalcookiesstorageName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('internationalcookiesstorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value )]"
               }
             ]
           }
