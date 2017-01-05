@@ -122,7 +122,7 @@
       }
   },
     "variables": {
-        "internationalcookiesName": "[concat('internationalcookies2', uniqueString(resourceGroup().id))]",
+        "internationalcookiesName": "[concat('internationalcookies', uniqueString(resourceGroup().id))]",
         "internationalcookiesstorageName": "[concat('intcookies', uniqueString(resourceGroup().id))]"   
     },
     "resources": [
@@ -235,13 +235,13 @@
               },
               {
                 "name": "RedisConnection",
-                "connectionString": "[concat(parameters('internationalcookies-cacheName'),'.redis.cache.windows.net:6380,password=', listKeys(resourceId('Microsoft.Cache/Redis', parameters('internationalcookies-cacheName')), '2015-08-01').primaryKey, 'ssl=True,abortConnect=False')]"
+                "connectionString": "[concat(parameters('internationalcookies-cacheName'),'.redis.cache.windows.net:6380,password=', listKeys(resourceId('Microsoft.Cache/Redis', parameters('internationalcookies-cacheName')), '2015-08-01').primaryKey, ',ssl=True,abortConnect=False')]"
 
 
               },
               {
                 "name": "AzureStorageConnection",
-                "connectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('internationalcookiesstorageName'), 'AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('internationalcookiesstorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value )]"
+                "connectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('internationalcookiesstorageName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('internationalcookiesstorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value )]"
               }
             ]
           }
