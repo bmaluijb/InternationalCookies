@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="c3caf30c-3eaa-4abe-96a9-513bd5e81dc3" ChangeDateTime="10/14/2016 12:43:54">
+    <Property Name="ElementName" Value="[dbo].[FK_OrderLine_ToTable]" />
+    <Property Name="ElementType" Value="SqlForeignKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[OrderLine]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[CookieForeignKey]" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="363c5be0-9aa3-42ba-ae95-87b2d6a20fdf" ChangeDateTime="11/29/2016 11:19:15">
+    <Property Name="ElementName" Value="[dbo].[Stores].[DBServer]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Stores]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="DatabaseServer" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="5e0e3f84-3f0d-4222-bd91-9f4581cd9b64" ChangeDateTime="11/29/2016 11:19:49">
+    <Property Name="ElementName" Value="[dbo].[Stores].[DatabaseServer]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[Stores]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="Database" />
+  </Operation>
+</Operations>

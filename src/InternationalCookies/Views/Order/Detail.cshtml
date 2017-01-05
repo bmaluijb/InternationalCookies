@@ -1,0 +1,47 @@
+﻿@model Order
+@{
+    ViewData["Title"] = "Order detail";
+}
+
+@if (Model == null)
+{
+
+    <h2>No order was found.</h2>
+}
+else
+{
+
+    <h2>Details for order with Id @Model.Id</h2>
+
+    <fieldset>
+        <legend>Order</legend>
+        Date: @Model.Date.LocalDateTime.ToString("d") <br />
+        Total Price: € @Model.Price.ToString(CultureInfo.CurrentCulture) <br />
+        Status: @Model.Status <br />
+        @if (@Model.Id == 0)
+        {
+            <a href="PlaceOrder?id=@Model.Id">Place order</a><br />
+        }
+
+
+        <a href="CancelOrder?id=@Model.Id">Cancel order</a>
+
+    </fieldset>
+
+    <h3>Order lines:</h3>
+    <table>
+        <tr>
+            <td>Cookie name</td>
+            <td># cookies</td>
+        </tr>
+        @foreach (var line in Model.OrderLines)
+        {
+            <tr>
+                <td>@line.Cookie.Name</td>
+                <td>@line.Quantity</td>
+            </tr>
+        }
+
+    </table>
+}
+

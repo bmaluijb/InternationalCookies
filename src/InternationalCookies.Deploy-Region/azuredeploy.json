@@ -1,0 +1,288 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+  "parameters": {
+    "internationalcookiesAdminLogin": {
+      "type": "string",
+      "minLength": 1
+    },
+    "internationalcookiesAdminLoginPassword": {
+      "type": "securestring"
+    },
+    "internationalcookies-dbName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "internationalcookies-dbCollation": {
+      "type": "string",
+      "minLength": 1,
+      "defaultValue": "SQL_Latin1_General_CP1_CI_AS"
+    },
+    "internationalcookies-dbEdition": {
+      "type": "string",
+      "defaultValue": "Basic",
+      "allowedValues": [
+        "Basic",
+        "Standard",
+        "Premium"
+      ]
+    },
+    "internationalcookies-dbRequestedServiceObjectiveName": {
+      "type": "string",
+      "defaultValue": "Basic",
+      "allowedValues": [
+        "Basic",
+        "S0",
+        "S1",
+        "S2",
+        "P1",
+        "P2",
+        "P3"
+      ],
+      "metadata": {
+        "description": "Describes the performance level for Edition"
+      }
+    },
+    "internationalcookies-cacheName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "internationalcookies-webName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "internationalcookies-cacheSKUName": {
+      "type": "string",
+      "allowedValues": [
+        "Basic",
+        "Standard"
+      ],
+      "defaultValue": "Standard"
+    },
+    "internationalcookies-cacheSKUFamily": {
+      "type": "string",
+      "allowedValues": [
+        "C"
+      ],
+      "defaultValue": "C"
+    },
+    "internationalcookies-cacheSKUCapacity": {
+      "type": "int",
+      "allowedValues": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "defaultValue": 0
+    },
+    "internationalcookies-cacheRedisVersion": {
+      "type": "string",
+      "allowedValues": [
+        "2.8"
+      ],
+      "defaultValue": "2.8"
+    },
+    "internationalcookiesName": {
+      "type": "string",
+      "minLength": 1
+    },
+    "internationalcookiesSKU": {
+      "type": "string",
+      "allowedValues": [
+        "Free",
+        "Shared",
+        "Basic",
+        "Standard"
+      ],
+      "defaultValue": "Free"
+    },
+    "internationalcookiesWorkerSize": {
+      "type": "string",
+      "allowedValues": [
+        "0",
+        "1",
+        "2"
+      ],
+      "defaultValue": "0"
+    },
+      "internationalcookiesstorageType": {
+          "type": "string",
+          "defaultValue": "Standard_LRS",
+          "allowedValues": [
+              "Standard_LRS",
+              "Standard_ZRS",
+              "Standard_GRS",
+              "Standard_RAGRS",
+              "Premium_LRS"
+          ]
+      }
+  },
+    "variables": {
+        "internationalcookiesName": "[concat('internationalcookies2', uniqueString(resourceGroup().id))]",
+        "internationalcookiesstorageName": "[concat('intcookies', uniqueString(resourceGroup().id))]"   
+    },
+    "resources": [
+        {
+            "name": "[variables('internationalcookiesName')]",
+            "type": "Microsoft.Sql/servers",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2014-04-01-preview",
+            "dependsOn": [ ],
+            "tags": {
+                "displayName": "internationalcookies"
+            },
+            "properties": {
+              "administratorLogin": "[parameters('internationalcookiesAdminLogin')]",
+              "administratorLoginPassword": "[parameters('internationalcookiesAdminLoginPassword')]"
+
+            },
+            "resources": [
+                {
+                    "name": "AllowAllWindowsAzureIps",
+                    "type": "firewallrules",
+                    "location": "[resourceGroup().location]",
+                    "apiVersion": "2014-04-01-preview",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Sql/servers', variables('internationalcookiesName'))]"
+                    ],
+                    "properties": {
+                        "startIpAddress": "0.0.0.0",
+                        "endIpAddress": "0.0.0.0"
+                    }
+                },
+                {
+                    "name": "[parameters('internationalcookies-dbName')]",
+                    "type": "databases",
+                    "location": "[resourceGroup().location]",
+                    "apiVersion": "2014-04-01-preview",
+                    "dependsOn": [
+                        "[resourceId('Microsoft.Sql/servers', variables('internationalcookiesName'))]"
+                    ],
+                    "tags": {
+                        "displayName": "internationalcookies-db"
+                    },
+                    "properties": {
+                        "collation": "[parameters('internationalcookies-dbCollation')]",
+                        "edition": "[parameters('internationalcookies-dbEdition')]",
+                        "maxSizeBytes": "1073741824",
+                        "requestedServiceObjectiveName": "[parameters('internationalcookies-dbRequestedServiceObjectiveName')]"
+                    }
+                }
+            ]
+        },
+        {
+            "name": "[parameters('internationalcookies-cacheName')]",
+            "type": "Microsoft.Cache/Redis",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2014-04-01-preview",
+            "dependsOn": [ ],
+            "tags": {
+                "displayName": "internationalcookies-cache"
+            },
+            "properties": {
+                "sku": {
+                    "name": "[parameters('internationalcookies-cacheSKUName')]",
+                    "family": "[parameters('internationalcookies-cacheSKUFamily')]",
+                    "capacity": "[parameters('internationalcookies-cacheSKUCapacity')]"
+                },
+                "redisVersion": "[parameters('internationalcookies-cacheRedisVersion')]"
+            }
+        },
+        {
+            "name": "[parameters('internationalcookiesName')]",
+            "type": "Microsoft.Web/serverfarms",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2014-06-01",
+            "dependsOn": [ ],
+            "tags": {
+                "displayName": "internationalcookies"
+            },
+            "properties": {
+                "name": "[parameters('internationalcookiesName')]",
+                "sku": "[parameters('internationalcookiesSKU')]",
+                "workerSize": "[parameters('internationalcookiesWorkerSize')]",
+                "numberOfWorkers": 1
+            }
+        },
+      {
+        "name": "[parameters('internationalcookies-webName')]",
+        "type": "Microsoft.Web/sites",
+        "location": "[resourceGroup().location]",
+        "apiVersion": "2015-08-01",
+        "dependsOn": [
+          "[resourceId('Microsoft.Web/serverfarms', parameters('internationalcookiesName'))]"
+        ],
+        "tags": {
+          "[concat('hidden-related:', resourceId('Microsoft.Web/serverfarms', parameters('internationalcookiesName')))]": "Resource",
+          "displayName": "internationalcookies-web"
+        },
+        "properties": {
+          "name": "[parameters('internationalcookies-webName')]",
+          "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('internationalcookiesName'))]",
+          "siteConfig": {
+            "connectionStrings": [
+              {
+                "name": "CookieDBConnection",
+                "connectionString": "[concat('Server=tcp:', variables('internationalcookiesName'), ',1433;Initial Catalog=', parameters('internationalcookies-dbName'), ';Persist Security Info=False;User ID=', parameters('internationalcookiesAdminLogin'), ';Password=', parameters('internationalcookiesAdminLoginPassword'), ';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]"
+              },
+              {
+                "name": "CookieDBConnectionTemplate",
+                "connectionString": "[concat('Server=tcp:{0},1433;Initial Catalog={1};Persist Security Info=False;User ID=', parameters('internationalcookiesAdminLogin'), ';Password=', parameters('internationalcookiesAdminLoginPassword'), ';MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;')]"
+              },
+              {
+                "name": "RedisConnection",
+                "connectionString": "[concat(parameters('internationalcookies-cacheName'),'.redis.cache.windows.net:6380,password=', listKeys(resourceId('Microsoft.Cache/Redis', parameters('internationalcookies-cacheName')), '2015-08-01').primaryKey, 'ssl=True,abortConnect=False')]"
+
+
+              },
+              {
+                "name": "AzureStorageConnection",
+                "connectionString": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('internationalcookiesstorageName'), 'AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('internationalcookiesstorageName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value )]"
+              }
+            ]
+          }
+
+        },
+        "resources": [
+          {
+            "name": "appsettings",
+            "type": "config",
+            "apiVersion": "2015-08-01",
+            "dependsOn": [
+              "[resourceId('Microsoft.Web/sites', parameters('internationalcookies-webName'))]"
+            ],
+            "tags": {
+              "displayName": "webappsettings"
+            },
+            "properties": {
+              "AppSettings:Region": "Local",
+              "AzureAd:ClientId": " ",
+              "AzureAd:AadInstance": "https://login.microsoftonline.com/{0}",
+              "AzureAd:TenantId": " ",
+              "AzureAd:AuthCallback": "/signin-aad",
+              "AzureAd:AppKey": " "
+            }
+          }
+        ]
+      },
+        {
+            "name": "[variables('internationalcookiesstorageName')]",
+            "type": "Microsoft.Storage/storageAccounts",
+            "location": "[resourceGroup().location]",
+            "apiVersion": "2015-06-15",
+            "dependsOn": [ ],
+            "tags": {
+                "displayName": "internationalcookiesstorage"
+            },
+            "properties": {
+                "accountType": "[parameters('internationalcookiesstorageType')]"
+            }
+        }
+    ],
+    "outputs": {
+    }
+}

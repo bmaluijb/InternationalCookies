@@ -1,0 +1,37 @@
+﻿@model List<Order>
+@{
+    ViewData["Title"] = "Orders";
+}
+
+
+<h2>Here are your orders:</h2>
+
+<table>
+    <tr>
+        <td>Order date</td>
+        <td># order lines</td>
+        <td>Total price</td>
+        <td>Status</td>
+        <td></td>
+        <td></td>
+
+    </tr>
+    @foreach (var order in Model)
+    {
+        <tr>
+            <td>@order.Date.ToLocalTime().ToString("d")</td>
+            <td>@order.OrderLines.Count</td>
+            <td>€ @order.Price.ToString(CultureInfo.CurrentCulture)</td>
+            <td>@order.Status</td>
+            <td><a href="Order/Detail?id=@order.Id" >Details</a></td>
+
+            <td><a href="Order/CancelOrder?id=@order.Id">Cancel order</a></td>
+            @if (order.Id == 0)
+            {
+                <td><a href="Order/PlaceOrder?id=@order.Id">Place order</a></td>
+            }
+        </tr>
+    }
+
+</table>
+

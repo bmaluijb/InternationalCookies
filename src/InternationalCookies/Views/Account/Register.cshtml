@@ -1,0 +1,82 @@
+﻿@model InternationalCookies.Data.Models.Register
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form asp-controller="Account" asp-action="Register"  method="post" class="form-horizontal">
+    <h4>Create a new Cookie store account</h4>
+    <hr />
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="StoreName" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="StoreName" class="form-control" />
+            <span asp-validation-for="StoreName" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="StoreCountry" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="StoreCountry" class="form-control" />
+            <span asp-validation-for="StoreCountry" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="StoreDataRegions" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <select asp-for="StoreDataRegions" class="form-control">
+                <option value="WE">West Europe</option>
+                <option value="CUS">Central US</option>
+                <option value="BS">South Brazil</option>
+                <option value="SEA">South-East Asia</option>
+
+            </select>
+            <span asp-validation-for="StoreDataRegions" class="text-danger"></span>
+        </div>
+
+
+
+    </div>
+    <hr />
+
+    <div class="form-group">
+        <label asp-for="PersonEmail" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="PersonEmail" class="form-control" />
+            <span asp-validation-for="PersonEmail" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="PersonFirstName" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="PersonFirstName" class="form-control" />
+            <span asp-validation-for="PersonFirstName" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label asp-for="PersonLastName" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="PersonLastName" class="form-control" />
+            <span asp-validation-for="PersonLastName" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <button type="submit" class="btn btn-default">Register</button>
+        </div>
+    </div>
+</form>
+
+@section Scripts{
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validate/1.14.0/jquery.validate.min.js"
+        asp-fallback-src="~/lib/jquery-validation/dist/jquery.validate.min.js"
+        asp-fallback-test="window.jQuery && window.jQuery.validator">
+</script>
+<script src="https://ajax.aspnetcdn.com/ajax/jquery.validation.unobtrusive/3.2.6/jquery.validate.unobtrusive.min.js"
+        asp-fallback-src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
+        asp-fallback-test="window.jQuery && window.jQuery.validator && window.jQuery.validator.unobtrusive">
+</script>
+}

@@ -1,0 +1,37 @@
+﻿@model List<Cookie>
+@{
+    ViewData["Title"] = "Cookies!";
+}
+
+<h2>Check out the awesome assortment of cookies:</h2>
+
+@for (int i = 0; i < Model.Count; i++)
+{
+    if (i ==0)
+    {
+        @:<div class="row">
+    }
+    <form action="/Order/AddCookieToOrderLine" id="AddCookieToOrderLine@@@i">
+      
+        <input type="hidden" value="@Model[i].Id" name ="cookieId" id="cookieId" />
+        <div class="col-md-2">
+            <p>
+                <strong>@Model[i].Name</strong>
+            </p>
+            <p>
+                <img src="@Model[i].ImageUrl" alt="@Model[i].Name" width="110" height="110" />
+            </p>
+            <p>
+                € @Model[i].Price.ToString(CultureInfo.CurrentCulture) / piece
+            </p>
+            <p><button type="submit" >Add to order</button></p>
+        </div>
+    </form>
+
+    if (i % 2 == 0 && i > 0)
+    {
+        @:</div>
+        @:<div class="row">
+    }
+}
+
