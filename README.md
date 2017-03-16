@@ -30,7 +30,7 @@ Getting started
 
 Make sure that you have the following:
 
- - Visual Studio 2015
+ - Visual Studio 2015 (or Visual Studio 2017. <a href="https://github.com/bmaluijb/InternationalCookies/wiki/Conversion-to-Visual-Studio-2017" target="_blank">See the wiki</a> for more details)
  - Azure subscription ([Try for free](https://azure.microsoft.com/en-us/free/))
  - [Azure SDK](https://azure.microsoft.com/en-us/downloads/)
  - (optional) [Azure Logic Apps Tools for Visual Studio](https://marketplace.visualstudio.com/items?itemName=VinaySinghMSFT.AzureLogicAppsToolsforVisualStudio) 
